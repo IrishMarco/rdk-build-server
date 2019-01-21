@@ -1,5 +1,4 @@
-ARG ubuntu_ver
-FROM ubuntu:$ubuntu_ver
+FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ 'America/New_York'
@@ -8,15 +7,14 @@ ENV TZ 'America/New_York'
 # git-lfs is required and need some steps to be installed described in
 # https://github.com/git-lfs/git-lfs/wiki/Installation#ubuntu
 RUN apt-get update                                                                ;\
-    apt-get upgrade                                                               ;\
     echo 'APT::Get::Assume-Yes "true";'  > /etc/apt/apt.conf.d/90forceyes         ;\
     echo $TZ > /etc/timezone                                                      ;\
-    apt-get install make gcc g++ diffstat texinfo chrpath sudo unzip cpio socat    \
+    apt-get install --no-install-recommends                                        \
+                    make gcc g++ diffstat texinfo chrpath sudo unzip cpio socat    \
                     gcc-multilib git gawk build-essential autoconf libtool curl    \
                     libncurses-dev gettext gperf lib32z1 libc6-i386 g++-multilib   \
-                    python-git wget locales python3-pip python3-pexpect            \
-                    software-properties-common bash-completion openssh-server      \
-                    openssh-server tzdata                                         ;\
+                    python-git wget locales python3-pip python3-pexpect tzdata     \
+                    software-properties-common bash-completion openssh-server     ;\
     apt-get upgrade                                                               ;\
     add-apt-repository ppa:git-core/ppa                                           ;\
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash ;\
