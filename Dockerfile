@@ -14,7 +14,7 @@ RUN apt-get update                                                              
                     gcc-multilib git gawk build-essential autoconf libtool curl    \
                     libncurses-dev gettext gperf lib32z1 libc6-i386 g++-multilib   \
                     python-git wget locales python3-pip python3-pexpect tzdata     \
-                    software-properties-common bash-completion openssh-server     ;\
+                    software-properties-common bash-completion openssh-server vim ;\
     apt-get upgrade                                                               ;\
     add-apt-repository ppa:git-core/ppa                                           ;\
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash ;\
@@ -48,6 +48,24 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
+
+# Create user
+ARG UNAME=user
+ARG UID=1001
+ARG GID=1001
+RUN groupadd -g $GID $UNAME                                    ;\
+    useradd -m -u $UID -g $GID -s /bin/bash $UNAME             ;\
+    echo "$UNAME:$UNAME" | chpasswd                            ;\
+    echo "$UNAME ALL=(ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
+
+WORKDIR /export
+
+USER $UNAME
+ENV USER=$UNAME
+
+RUN git config --global user.email "user@example.com" ;\
+    git config --global user.name "User Name"         ;\
+    echo "machine url.com login user password password" > ~/.netrc
 
 ADD files/start_container.sh /start_container.sh
 CMD ["/start_container.sh"]
