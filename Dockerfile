@@ -47,7 +47,6 @@ RUN mkdir -p /var/run/sshd                                                      
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-EXPOSE 22
 
 # Create user
 ARG UNAME=user
@@ -67,6 +66,19 @@ RUN git config --global user.email "user@example.com" ;\
     git config --global user.name "User Name"         ;\
     echo "machine url.com login user password password" > ~/.netrc
 
+# Add the Yoto compilation file
+ADD files/gitconfig /home/$USER/.gitconfig
+ADD files/compile.sh /bin/compile.sh
+# To be define when creating the container
+ENV WS_URL=url
+ENV WS_MANIFEST=manifest
+ENV WS_BRANCH=branch
+ENV WS_MACHINE=machine
+ENV WS_SETENV=setenv
+ENV WS_TARGET=target
+
+# The container will run SSH
+EXPOSE 22
 ADD files/start_container.sh /start_container.sh
 CMD ["/start_container.sh"]
 
