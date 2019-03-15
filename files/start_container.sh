@@ -4,4 +4,4 @@
 # this is the right place
 
 # Start the SSH daemon and keep it running
-sudo /usr/sbin/sshd -D
+sudo /usr/sbin/sshd -eD
