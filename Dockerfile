@@ -80,5 +80,5 @@ ENV WS_TARGET=target
 # The container will run SSH
 EXPOSE 22
 ADD files/start_container.sh /start_container.sh
-CMD ["/start_container.sh"]
-
+#CMD ["/start_container.sh"]
+ENTRYPOINT ["/start_container.sh"]
