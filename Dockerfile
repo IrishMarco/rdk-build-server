@@ -14,7 +14,8 @@ RUN apt-get update                                                              
                     gcc-multilib git gawk build-essential autoconf libtool curl    \
                     libncurses-dev gettext gperf lib32z1 libc6-i386 g++-multilib   \
                     python-git wget locales python3-pip python3-pexpect tzdata     \
-                    software-properties-common bash-completion openssh-server vim ;\
+                    software-properties-common bash-completion openssh-server vim  \
+                    shellinabox                                                   ;\
     apt-get upgrade                                                               ;\
     add-apt-repository ppa:git-core/ppa                                           ;\
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash ;\
